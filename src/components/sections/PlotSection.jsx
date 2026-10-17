@@ -1,9 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PlotCard from '../cards/PlotCard';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
-export default function PlotSection({ plots = defaultPlots }) {
+import plotService from '../../services/plotService'
+import { useSearchParams } from 'react-router';
+export default function PlotSection() {
   const scrollContainerRef = useRef(null);
+
+  const[plots,setPlots]=useState(defaultPlots)
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
@@ -14,6 +18,30 @@ export default function PlotSection({ plots = defaultPlots }) {
       });
     }
   };
+
+  const getPlots=async()=>{
+
+    console.log("plot trying")
+
+    try{
+
+      //const plots=await plotService.getAllPlots()
+
+      //console.log(plots)
+      console.log("plot data")
+
+      //setPlots(plots.plot)
+
+
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+    useEffect(() => {
+      getPlots();
+    }, []);
 
   return (
     <section className="bg-gray-50 py-12 m-4 px-4 sm:px-6 lg:px-8" id="plots">
