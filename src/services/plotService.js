@@ -7,29 +7,29 @@ const plotService={
 
     createPlot:async(formData)=>{
 
-        const data=new FormData()
+    const data = new FormData();
 
-        formData.append("title", title);
-        formData.append("description", description);
-        formData.append("plotType", plotType);
+    data.append("title", formData.title);
+    data.append("description", formData.description);
+    data.append("plotType", formData.plotType);
+    data.append("status", formData.status);
 
-        formData.append("area", JSON.stringify(area));
-        formData.append("price", price);
-        formData.append("location", JSON.stringify(location));
-        formData.append("dimensions", JSON.stringify(dimensions));
+    data.append("area", JSON.stringify(formData.area));
+    data.append("price", formData.price);
+    data.append("pricePerSqFt", formData.pricePerSqFt);
 
-        formData.append("facing", facing);
-        formData.append("roadWidth", roadWidth);
-        formData.append("amenities", JSON.stringify(amenities));
+    data.append("location", JSON.stringify(formData.location));
+    data.append("dimensions", JSON.stringify(formData.dimensions));
 
-        formData.append("legalStatus", legalStatus);
-        formData.append("ownershipType", ownershipType);
+    data.append("facing", formData.facing);
+    data.append("roadWidth", formData.roadWidth);
+    data.append("amenities", JSON.stringify(formData.amenities || []));
+    data.append("legalStatus", formData.legalStatus);
+    data.append("ownershipType", formData.ownershipType);
 
-        
-        if(formData.image){
-            console.log(formData.image)
-            data.append("image",formData.image)
-        }
+    if (formData.image instanceof File) {
+        data.append("image", formData.image);
+    }
 
 
         const plot=await api.post(endpoints.CREATE_PLOT,data , {

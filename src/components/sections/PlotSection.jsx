@@ -25,12 +25,12 @@ export default function PlotSection() {
 
     try{
 
-      //const plots=await plotService.getAllPlots()
+      const plots=await plotService.getAllPlots()
 
-      //console.log(plots)
+      console.log(plots)
       console.log("plot data")
 
-      //setPlots(plots.plot)
+      setPlots(plots.plots)
 
 
     }
@@ -89,12 +89,12 @@ export default function PlotSection() {
           }}
         >
           {plots.map((plot) => (
-            <div key={plot.id} className="flex-shrink-0 w-[300px] sm:w-[320px]">
+            <div key={plot._id} className="flex-shrink-0 w-[300px] sm:w-[320px]">
               <PlotCard
                 image={plot.image}
-                location={plot.location}
+                location={plot.location.city}
                 price={plot.price}
-                area={plot.area}
+                area={plot.area.value}
                 onViewDetails={() => console.log(`Viewing plot ${plot.id}`)}
               />
             </div>
