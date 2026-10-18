@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import PlotCard from '../cards/PlotCard';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
+import { useNavigate } from 'react-router';
+
 import plotService from '../../services/plotService'
 import { useSearchParams } from 'react-router';
 export default function PlotSection() {
@@ -18,6 +20,8 @@ export default function PlotSection() {
       });
     }
   };
+
+  const navigate=useNavigate()
 
   const getPlots=async()=>{
 
@@ -95,7 +99,7 @@ export default function PlotSection() {
                 location={plot.location.city}
                 price={plot.price}
                 area={plot.area.value}
-                onViewDetails={() => console.log(`Viewing plot ${plot.id}`)}
+                onViewDetails={() => navigate(`/plot-details/${plot._id}`)}
               />
             </div>
           ))}
