@@ -2,11 +2,11 @@ import React from 'react';
 import { Phone, Star, MapPin, Building, ShieldCheck, ArrowRight } from 'lucide-react';
 
 export default function BrokerCard({
-  name = "Rajesh Sharma",
-  contactNumber = "+91 98765 43210",
-  rating = 4.8,
-  area = "DLF Phase 5",
-  city = "Gurgaon",
+  image,
+  name,
+  contactNumber ,
+  rating ,
+  city,
   onContact = () => {}
 }) {
   return (
@@ -17,7 +17,7 @@ export default function BrokerCard({
         <div className="flex items-start justify-between">
           <div className="relative">
             <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl shadow-inner">
-              {name.charAt(0)}
+                <img src={image} alt="" />
             </div>
             <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full ring-2 ring-white" title="Verified Broker">
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -48,7 +48,7 @@ export default function BrokerCard({
           <div className="flex items-start text-gray-600 text-sm gap-2.5">
             <MapPin className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
             <span className="font-medium text-gray-700">
-              {area}, <span className="text-gray-500">{city}</span>
+              {''}, <span className="text-gray-500">{city}</span>
             </span>
           </div>
 

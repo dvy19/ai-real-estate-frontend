@@ -1,11 +1,37 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PlotCard from '../cards/PlotCard';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import HouseCard from '../cards/HouseCard';
 import BrokerCard from '../cards/BrokerCard';
 
-export default function BrokerSection({ plots = defaultBrokers }) {
+import brokerService from '../../services/brokerService'
+import { useNavigate } from 'react-router';
+
+export default function BrokerSection() {
   const scrollContainerRef = useRef(null);
+
+  const[brokerData,setBrokerData]=useState([])
+
+  const navigate=useNavigate()
+
+  const getBrokers=async()=>{
+
+    try{
+
+      const response=await brokerService.getBrokers()
+
+      console.log(response)
+
+      setBrokerData(response.brokers)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    getBrokers()
+  },  [])
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
@@ -62,14 +88,16 @@ export default function BrokerSection({ plots = defaultBrokers }) {
             msOverflowStyle: 'none', // Hide scrollbar IE/Edge
           }}
         >
-          {plots.map((plot) => (
-            <div key={plot.id} className="flex-shrink-0 w-[300px] sm:w-[320px]">
+          {brokerData.map((broker) => (
+            <div key={broker._id} className="flex-shrink-0 w-[300px] sm:w-[320px]">
               <BrokerCard
-                image={plot.image}
-                location={plot.location}
-                price={plot.price}
-                area={plot.area}
-                onViewDetails={() => console.log(`Viewing plot ${plot.id}`)}
+                image={broker.image}
+                name={broker.name}
+                contactNumber={broker.phone}
+                rating={broker.rating}
+                city={broker.city}
+                onContact={()=>{
+                  navigate(`/broker-profile/${broker._id}`)}}
               />
             </div>
           ))}
@@ -78,45 +106,3 @@ export default function BrokerSection({ plots = defaultBrokers }) {
     </section>
   );
 }
-export const defaultBrokers = [
-  {
-    id: 1,
-    name: "Rajesh Sharma",
-    contactNumber: "+91 98765 43210",
-    rating: 4.9,
-    area: "DLF Phase 5",
-    city: "Gurgaon"
-  },
-  {
-    id: 2,
-    name: "Ananya Reddy",
-    contactNumber: "+91 98123 45678",
-    rating: 4.8,
-    area: "Gachibowli",
-    city: "Hyderabad"
-  },
-  {
-    id: 3,
-    name: "Siddharth Mehta",
-    contactNumber: "+91 97654 32109",
-    rating: 4.7,
-    area: "Koramangala",
-    city: "Bengaluru"
-  },
-  {
-    id: 4,
-    name: "Vikram Malhotra",
-    contactNumber: "+91 95432 10987",
-    rating: 4.6,
-    area: "Koregaon Park",
-    city: "Pune"
-  },
-  {
-    id: 5,
-    name: "Pooja Verma",
-    contactNumber: "+91 94321 09876",
-    rating: 4.9,
-    area: "Gomti Nagar",
-    city: "Lucknow"
-  }
-];

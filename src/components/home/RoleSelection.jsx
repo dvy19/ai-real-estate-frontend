@@ -51,7 +51,7 @@ export default function RoleSection() {
       console.log(data.user.role)
 
       if(data.user.role=='broker'){
-        navigate('/broker-home')
+        navigate('/broker-details')
       }
       else{
         navigate('/customer-home')

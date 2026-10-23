@@ -7,17 +7,17 @@ const brokerService={
 
         const data=new FormData()
 
-        data.append("name",name)
-        data.append("phone",phone)
-        data.append("city",city),
-        data.append("office", office)
-        data.append("isVerified", isVerified)
-        data.append("rating" ,rating)
+        data.append("name",formData.name)
+        data.append("phone",formData.phone)
+        data.append("city",formData.city),
+        data.append("office", formData.office)
+        data.append("isVerified", formData.isVerified)
+        data.append("rating" ,formData.rating)
 
-        data.append("propertyTypes" , JSON.stringify(propertyTypes))
+        data.append("propertyTypes" , JSON.stringify(formData.propertyTypes))
 
         if(formData.image)(
-            data.append("image", image)
+            data.append("image", formData.image)
         )
 
         const broker=await api.post(endpoints.CREATE_BROKER,data,{
