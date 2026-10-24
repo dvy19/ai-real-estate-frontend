@@ -12,7 +12,25 @@ const BrokerProfile = () => {
 
   const [broker,setBroker]=useState({})
 
+  const[schedule,setSchedule]=useState([])
+
   const navigate=useNavigate()
+
+  const getSchedule=async(id)=>{
+
+    try{
+
+      const data=await brokerService.getBrokerSchedule(id)
+
+      console.log(data)
+      setSchedule(data.availability?.schedule || []);
+
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
 
   const onChat=async(id)=>{
 
@@ -46,12 +64,14 @@ const BrokerProfile = () => {
 
   useEffect(()=>{
     getBroker(id)
+    getSchedule(id)
   } , [id])
 
   const properties=broker?.propertyTypes || []
   
 
   return (
+    <>
     <div className="max-w-md mx-auto bg-white border border-gray-100 rounded-2xl shadow-sm p-6 font-sans text-gray-800">
       {/* Header / Profile Info */}
       <div className="flex items-center space-x-4 mb-6">
@@ -119,6 +139,61 @@ const BrokerProfile = () => {
         </button>
       </div>
     </div>
+
+      <section className="m-6">
+      <h2 className="text-xl font-semibold mb-4">
+        Broker Availability
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {schedule.map((item, index) => (
+          <div
+            key={index}
+            className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="font-semibold text-lg">
+                  {item.day}
+                </h3>
+
+                <p className="text-sm text-gray-500">
+                  {item.date}
+                </p>
+              </div>
+
+              <span
+                className={`text-xs font-medium px-3 py-1 rounded-full ${
+                  item.isAvailable
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
+                }`}
+              >
+                {item.isAvailable ? "Available" : "Unavailable"}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2 text-gray-700">
+              <span>🕒</span>
+              <span>
+                {item.startTime} – {item.endTime}
+              </span>
+            </div>
+
+            <button
+                //onClick={() => handleBookAppointment(item)}
+                disabled={!item.isAvailable}
+                className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg
+                hover:bg-blue-700 transition disabled:bg-gray-300
+                disabled:cursor-not-allowed"
+              >
+                Book Appointment
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
+    </>
   );
 };
 

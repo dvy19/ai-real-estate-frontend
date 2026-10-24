@@ -22,7 +22,9 @@ const endpoints={
     BROKER_CHAT_CREATE:'chat/create-chat',
 
 
-    BROKER_AVAILABILITY:'broker/broker-availability'
+    BROKER_AVAILABILITY:'broker/broker-availability',
+
+    GET_BROKER_AVAILABLE:(id)=>`broker/get-broker-schedule/${id}`
 
 }
 

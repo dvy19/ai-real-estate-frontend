@@ -50,7 +50,15 @@ const brokerService={
         const data=await api.post(endpoints.BROKER_AVAILABILITY, {schedule})
 
         return data.data
+    },
+
+    getBrokerSchedule:async(id)=>{
+
+        const data=await api.get(`${endpoints.GET_BROKER_AVAILABLE(id)}`)
+
+        return data.data
     }
+    
 }
 
 export default brokerService
