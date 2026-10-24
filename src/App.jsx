@@ -10,6 +10,8 @@ import Chat from './pages/Chat'
 import BrokerProfile from './pages/broker/BrokerProfile'
 import BrokerChat from './components/sections/BrokerChat'
 import BrokerAvailability from './pages/broker/BrokerAvailability'
+import Login from './pages/Login'
+import Appointment from './pages/broker/Appointment'
 
 function App(){
 
@@ -20,6 +22,8 @@ function App(){
       <Routes>
 
         <Route path='/' element={<Home/>}></Route>
+
+        <Route path='/login' element={<Login/>}></Route>
         <Route path='/customer-home' element={<CustomerHome/>}></Route>
         <Route path='/add-plot' element={<AddPlot/>}> </Route>
 
@@ -35,6 +39,8 @@ function App(){
         <Route path='/broker-available' element={<BrokerAvailability/>}></Route>
 
         <Route path='/broker-chat/:id' element={<BrokerChat/>}></Route>
+
+        <Route path='/broker-appoint' element={<Appointment/>}></Route>
       </Routes>
     
     </BrowserRouter>

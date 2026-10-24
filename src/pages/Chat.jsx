@@ -1,29 +1,80 @@
 
-import { useState } from "react";
+import { useState  , useEffect} from "react";
+import mlService from "../services/mlService";
 
 export default function Chat() {
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            text: "Hello! How can I help you today?",
-            sender: "bot",
-        },
-    ]);
+   
+    const [input, setInput] = useState('');
+    const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    const[message,setMessage]=useState("")
+    const sendQuestion = async () => {
+        const question = input.trim();
+        if (!question || loading) return;
 
-    const handleSend = () => {
-    if (!message.trim()) return;
+        setMessages(prev => [
+            ...prev,
+            { id: Date.now(), sender: 'user', text: question }
+        ]);
 
-    const newMessage = {
-        id: Date.now(),
-        text: message,
-        sender: "user",
+        setInput('');
+        setLoading(true);
+
+        try {
+            const response = await mlService.sendRag(question);
+
+            const answer = response.data.answer;
+
+            setMessages(prev => [
+                ...prev,
+                { id: Date.now() + 1, sender: 'ai', text: answer }
+            ]);
+        }
+         catch (err) {
+            console.error(err);
+            setMessages(prev => [
+                ...prev,
+                {
+                    id: Date.now() + 1,
+                    sender: 'ai',
+                    text: 'Sorry, something went wrong. Please try again.'
+                }
+            ]);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    setMessages((prev) => [...prev, newMessage]);
-    setMessage("");
-    };
+    useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                const response = await mlService.getRagHistory();
+
+                const history = response.data;
+
+                console.log(history)
+
+                const formattedMessages = history.reverse().flatMap((chat) => [
+                    {
+                        id: `${chat._id}-question`,
+                        sender: "user",
+                        text: chat.question
+                    },
+                    {
+                        id: `${chat._id}-answer`,
+                        sender: "ai",
+                        text: chat.answer
+                    }
+                ]);
+
+                setMessages(formattedMessages);
+            } catch (err) {
+                console.log("Failed to fetch chat history:", err);
+            }
+        };
+
+        fetchHistory();
+    }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center p-4">
@@ -74,31 +125,24 @@ export default function Chat() {
         <div className="border-t border-gray-200 p-4">
           <div className="flex gap-3">
 
-            <input
+           <input
               type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 min-w-0 rounded-xl
-                         border border-gray-300 px-4 py-3
-                         outline-none focus:ring-2
-                         focus:ring-blue-500"
-            />
-
-            <button
-              onClick={handleSend}
-
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        handleSend();
-                }
-                }}
-              className="rounded-xl bg-blue-600 px-5
-                         text-white font-medium
-                         hover:bg-blue-700 transition"
-            >
-              Send
-            </button>
+                  if (e.key === 'Enter') sendQuestion();
+              }}
+              placeholder="Type your message..."
+              className="flex-1 min-w-0 rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <button
+              onClick={sendQuestion}
+              disabled={loading || !input.trim()}
+              className="rounded-xl bg-blue-600 px-5 text-white font-medium hover:bg-blue-700 disabled:opacity-50"
+          >
+              {loading ? 'Thinking...' : 'Send'}
+          </button>
 
           </div>
         </div>

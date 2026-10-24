@@ -57,6 +57,13 @@ const brokerService={
         const data=await api.get(`${endpoints.GET_BROKER_AVAILABLE(id)}`)
 
         return data.data
+    },
+
+    brokerAppointment:async(req,res)=>{
+
+        const data=await api.post(endpoints.BROKER_APPOINTMENT , req)
+
+        return data.data
     }
     
 }

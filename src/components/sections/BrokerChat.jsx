@@ -2,25 +2,31 @@ import React from 'react';
 
 import { useState , useEffect } from 'react';
 import { useParams } from 'react-router';
-
+import { io } from "socket.io-client";
 import brokerService from '../../services/brokerService';
 
 const BrokerChat = () => {
 
     const [broker,setBroker]=useState()
 
+
+    const [messages, setMessages] = useState([]);
+    const [chatId, setChatId] = useState(null);
+    const [inputText, setInputText] = useState("");
+
     const {id}=useParams()
+
+    console.log(id)
 
     const getBroker=async()=>{
 
         try{
 
-            const data=await brokerService.getSingleBroker(broker._id)
+            const data=await brokerService.getSingleBroker(id)
 
             console.log(data)
             setBroker(data.broker)
 
-            //navigate(`/broker-chat/${broker._id}`)
         }
         catch(err){
             console.log(err)
@@ -40,24 +46,11 @@ const BrokerChat = () => {
     isOnline = true
   } = broker || {};
 
-  // Local state for messaging UI
-  const [messages, setMessages] = useState([
-    { id: 1, sender: 'broker', text: 'Hello! How can I help you find your dream property today?', time: '10:00 AM' },
-    { id: 2, sender: 'user', text: 'Hi Sarah, I wanted to inquire about the 2-BHK apartments listed in Midtown.', time: '10:02 AM' },
-    { id: 3, sender: 'broker', text: 'Sure! We have three prime units available right now. Are you looking to buy or rent?', time: '10:03 AM' }
-  ]);
-  const [inputText, setInputText] = useState('');
+ 
 
   const handleSend = (e) => {
     e.preventDefault();
     if (!inputText.trim()) return;
-
-    const newMessage = {
-      id: Date.now(),
-      sender: 'user',
-      text: inputText,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
 
     setMessages((prev) => [...prev, newMessage]);
     setInputText('');

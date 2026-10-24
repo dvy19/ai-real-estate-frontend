@@ -24,7 +24,13 @@ const endpoints={
 
     BROKER_AVAILABILITY:'broker/broker-availability',
 
-    GET_BROKER_AVAILABLE:(id)=>`broker/get-broker-schedule/${id}`
+    GET_BROKER_AVAILABLE:(id)=>`broker/get-broker-schedule/${id}`,
+
+
+    RAG_SEND:"ml/rag-chat",
+    RAG_HISTORY:'ml/rag-history',
+
+    BROKER_APPOINTMENT:"broker/create-appointment"
 
 }
 

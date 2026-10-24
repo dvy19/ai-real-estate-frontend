@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import brokerService from '../../services/brokerService';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import chatService from '../../services/chatService';
+import { Link } from 'lucide-react';
 
 const BrokerProfile = () => {
   
 
   const {id}=useParams()
 
-  console.log(id)
+  //console.log(id)
 
   const [broker,setBroker]=useState({})
 
@@ -22,7 +23,7 @@ const BrokerProfile = () => {
 
       const data=await brokerService.getBrokerSchedule(id)
 
-      console.log(data)
+      console.log(data.availability.schedule)
       setSchedule(data.availability?.schedule || []);
 
     }
@@ -32,19 +33,7 @@ const BrokerProfile = () => {
   }
 
 
-  const onChat=async(id)=>{
-
-    try{
-
-        const chat=await chatService.createChat(id)
-
-        console.log(chat)
-    }
-    catch(err){
-        console.log(err)
-    }
-  }
-
+  
   
   const getBroker=async(id)=>{
 
@@ -52,7 +41,7 @@ const BrokerProfile = () => {
 
         const data=await brokerService.getSingleBroker(id)
 
-        console.log(data)
+        //console.log(data)
         setBroker(data.broker)
 
         //navigate(`/broker-chat/${broker._id}`)
@@ -62,10 +51,32 @@ const BrokerProfile = () => {
     }
   }
 
+
   useEffect(()=>{
     getBroker(id)
     getSchedule(id)
   } , [id])
+
+
+  
+
+  const onChat=async(id)=>{
+
+    try{
+
+        const chat=await chatService.createChat(id)
+
+        //console.log(chat)
+
+        navigate(`/broker-chat/${broker?._id}`)
+    }
+    catch(err){
+        console.log(err)
+    }
+  }
+
+  
+
 
   const properties=broker?.propertyTypes || []
   
@@ -181,8 +192,16 @@ const BrokerProfile = () => {
             </div>
 
             <button
-                //onClick={() => handleBookAppointment(item)}
+           
                 disabled={!item.isAvailable}
+                onClick={()=>navigate("/broker-appoint", {
+            state: {
+              broker: broker,
+              date: item?.date,
+              startTime:item?.startTime,
+              endTime:item?.endTime
+            },
+        })}
                 className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg
                 hover:bg-blue-700 transition disabled:bg-gray-300
                 disabled:cursor-not-allowed"
