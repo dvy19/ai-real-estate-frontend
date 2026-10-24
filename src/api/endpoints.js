@@ -19,7 +19,10 @@ const endpoints={
     GET_SINGLE_BROKERS:(id)=>`broker/get-single-broker/${id}`,
 
 
-    BROKER_CHAT_CREATE:'chat/create-chat'
+    BROKER_CHAT_CREATE:'chat/create-chat',
+
+
+    BROKER_AVAILABILITY:'broker/broker-availability'
 
 }
 

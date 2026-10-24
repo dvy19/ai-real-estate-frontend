@@ -9,6 +9,7 @@ import BrokerDetails from './pages/broker/BrokerDetails'
 import Chat from './pages/Chat'
 import BrokerProfile from './pages/broker/BrokerProfile'
 import BrokerChat from './components/sections/BrokerChat'
+import BrokerAvailability from './pages/broker/BrokerAvailability'
 
 function App(){
 
@@ -30,6 +31,8 @@ function App(){
         <Route path='/chat' element={<Chat/>}></Route>
 
         <Route path='/broker-profile/:id' element={<BrokerProfile/>}></Route>
+
+        <Route path='/broker-available' element={<BrokerAvailability/>}></Route>
 
         <Route path='/broker-chat/:id' element={<BrokerChat/>}></Route>
       </Routes>

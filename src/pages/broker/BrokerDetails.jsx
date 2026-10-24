@@ -76,6 +76,9 @@ const BrokerDetails = () => {
 
       console.log(broker)
 
+      navigate('/broker-home')
+
+
       setSuccess("Broker profile created successfully!");
       setFormData(initialForm);
       setPreview(null);
