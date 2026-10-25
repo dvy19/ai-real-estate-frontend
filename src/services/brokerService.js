@@ -64,6 +64,21 @@ const brokerService={
         const data=await api.post(endpoints.BROKER_APPOINTMENT , req)
 
         return data.data
+    },
+
+    getSelfProfile:async()=>{
+        const data=await api.get(endpoints.GET_MY_BROKER_PROF)
+        return data.data
+    },
+
+    getSelfBrokerAppointment:async()=>{
+
+        const data=await api.get(endpoints.GET_MY_BROKER_APPOINT)
+
+        return data.data
+
+
+
     }
     
 }

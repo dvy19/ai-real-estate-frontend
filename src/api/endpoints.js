@@ -30,7 +30,11 @@ const endpoints={
     RAG_SEND:"ml/rag-chat",
     RAG_HISTORY:'ml/rag-history',
 
-    BROKER_APPOINTMENT:"broker/create-appointment"
+    BROKER_APPOINTMENT:"broker/create-appointment",
+
+    GET_MY_BROKER_PROF:"broker/get-my-broker-profile",
+
+    GET_MY_BROKER_APPOINT:"broker/get-self-broker-appointment"
 
 }
 

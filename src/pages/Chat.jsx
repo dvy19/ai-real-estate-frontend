@@ -50,6 +50,7 @@ export default function Chat() {
             try {
                 const response = await mlService.getRagHistory();
 
+
                 const history = response.data;
 
                 console.log(history)

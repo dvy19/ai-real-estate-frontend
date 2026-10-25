@@ -47,7 +47,13 @@ const Login = () => {
 
         console.log(data)
 
-        navigate('/customer-home')
+        
+        if(data.user.role=='customer'){
+          navigate('/customer-home')
+        }
+        else{
+          navigate('/broker-home')
+        }
     }
     catch(err){
         console.log(err)
