@@ -51,12 +51,12 @@ const BrokerHome = () => {
     }
 
     useEffect(() => {
-        console.log("Connecting socket:", socket.id);
-        console.log("Joining broker room:", brokerId);
+        //console.log("Connecting socket:", socket.id);
+        //console.log("Joining broker room:", brokerId);
 
         socket.emit("join_broker", brokerId);
         socket.on("new_appointment", (data) => {
-          console.log("✅ SOCKET NOTIFICATION RECEIVED:", data);
+          //console.log("✅ SOCKET NOTIFICATION RECEIVED:", data);
           alert(data.message);
 
           setNotifications((prev) => [

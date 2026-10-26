@@ -9,6 +9,8 @@ const PlotDetails = () => {
 
   const[plotData,setPlotData]=useState({})
 
+  const[broker,setBroker]=useState({})
+
   const getPlot=async()=>{
 
     try{
@@ -54,11 +56,24 @@ const PlotDetails = () => {
     image: '',
   };
 
-  const broker = {
-    name: "Rahul Kumar",
-    phoneNumber: "9876543210",
-    email: "rahul@example.com",
-  };
+  const getBroker=async(plotId)=>{
+
+    try{
+
+      const data=await plotService.getPlotBroker(plotData._id)
+
+      console.log(data.broker)
+
+      setBroker(data.broker)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(()=>{
+    getBroker(plotData._id)
+  } , [plotData._id])
 
   const areaValue =
     typeof plot.area === "object" ? plot.area?.value : plot.areaValue;
@@ -108,10 +123,10 @@ const PlotDetails = () => {
   ];
 
   const locations = [
-    ["Full Address", plot.location.address],
-    ["City", plot.location.city],
-    ["State", plot.location.state],
-    ["Pincode", plot.location.pincode],
+    ["Full Address", plot.location?.address],
+    ["City", plot.location?.city],
+    ["State", plot.location?.state],
+    ["Pincode", plot.location?.pincode],
   ];
 
   return (
@@ -312,7 +327,7 @@ const PlotDetails = () => {
               </div>
 
               <button
-                onClick={handleBookVisit}
+                onClick={()=>{navigate(`/broker-profile/${broker._id}`)}}
                 disabled={status !== "available"}
                 className="mb-3 w-full rounded-lg bg-emerald-700 py-3 font-semibold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-gray-400"
               >

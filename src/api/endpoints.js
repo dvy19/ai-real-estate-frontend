@@ -34,7 +34,9 @@ const endpoints={
 
     GET_MY_BROKER_PROF:"broker/get-my-broker-profile",
 
-    GET_MY_BROKER_APPOINT:"broker/get-self-broker-appointment"
+    GET_MY_BROKER_APPOINT:"broker/get-self-broker-appointment",
+
+    GET_PLOT_BROKER:(plotId)=>`plot/plot-broker/${plotId}`
 
 }
 

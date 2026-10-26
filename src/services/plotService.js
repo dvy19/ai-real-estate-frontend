@@ -53,6 +53,14 @@ const plotService={
         const data=await api.get(`${endpoints.GET_SINGLE_PLOTS(id)}`)
 
         return data.data
+    },
+
+
+    getPlotBroker:async(plotId)=>{
+
+        const data=await api.get(`${endpoints.GET_PLOT_BROKER(plotId)}`)
+
+        return data.data
     }
 
 
