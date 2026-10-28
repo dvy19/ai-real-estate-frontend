@@ -12,6 +12,8 @@ import BrokerChat from './components/sections/BrokerChat'
 import BrokerAvailability from './pages/broker/BrokerAvailability'
 import Login from './pages/Login'
 import Appointment from './pages/broker/Appointment'
+import HousePredictCard from './components/cards/HousePredictCard'
+import HousePrediction from './pages/HousePrediction'
 
 function App(){
 
@@ -41,6 +43,8 @@ function App(){
         <Route path='/broker-chat/:id' element={<BrokerChat/>}></Route>
 
         <Route path='/broker-appoint' element={<Appointment/>}></Route>
+
+        <Route path='/house-prediction' element={<HousePrediction/>}></Route>
       </Routes>
     
     </BrowserRouter>

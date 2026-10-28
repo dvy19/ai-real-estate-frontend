@@ -31,9 +31,15 @@ const brokerService={
 
     },
 
-    getBrokers:async()=>{
+    getBrokers:async(pageNumber)=>{
 
-        const data=await api.get(endpoints.GET_ALL_BROKERS)
+        const data=await api.get(endpoints.GET_ALL_BROKERS , {
+
+            params:{
+                page: pageNumber,
+                limit: 3
+            }
+        })
 
         return data.data
     },

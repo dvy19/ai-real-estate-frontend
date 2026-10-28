@@ -23,6 +23,8 @@ const BrokerProfile = () => {
 
       const data=await brokerService.getBrokerSchedule(id)
 
+      console.log(data)
+
       console.log(data.availability.schedule)
       setSchedule(data.availability?.schedule || []);
 

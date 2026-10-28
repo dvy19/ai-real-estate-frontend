@@ -12,9 +12,14 @@ export default function BrokerSection() {
 
   const[brokerData,setBrokerData]=useState([])
 
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true); 
+
+  const[loading,setLoading]=useState(false)
+
   const navigate=useNavigate()
 
-  const getBrokers=async()=>{
+  const getBrokers=async(pageNumber=1)=>{
 
     try{
 
@@ -23,6 +28,15 @@ export default function BrokerSection() {
       console.log(response)
 
       setBrokerData(response.brokers)
+      const newBrokers = response.brokers;
+
+      setBrokerData(prev =>
+        pageNumber === 1 ? newBrokers : [...prev, ...newBrokers]
+      );
+
+      setHasMore(
+        pageNumber < response.data.pagination.totalPages
+      );
     }
     catch(err){
       console.log(err)
@@ -101,7 +115,25 @@ export default function BrokerSection() {
               />
             </div>
           ))}
+
+           
         </div>
+
+        {hasMore && (
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={getBrokers}
+                disabled={loading}
+                className="px-6 py-3 bg-indigo-600 text-white font-semibold
+                          rounded-lg hover:bg-indigo-700 transition
+                          disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Loading..." : "View More Brokers"}
+              </button>
+            </div>
+          )}
+
+       
       </div>
     </section>
   );

@@ -36,7 +36,10 @@ const endpoints={
 
     GET_MY_BROKER_APPOINT:"broker/get-self-broker-appointment",
 
-    GET_PLOT_BROKER:(plotId)=>`plot/plot-broker/${plotId}`
+    GET_PLOT_BROKER:(plotId)=>`plot/plot-broker/${plotId}`,
+
+
+    HOUSE_PRICE_PREDICT:"ml/predict-house-price"
 
 }
 
