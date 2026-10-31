@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useRef} from 'react';
 import brokerService from '../../services/brokerService';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import chatService from '../../services/chatService';
 import { Link } from 'lucide-react';
 
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+
+import HouseCard from '../../components/cards/HouseCard';
 const BrokerProfile = () => {
   
 
@@ -77,6 +80,42 @@ const BrokerProfile = () => {
     }
   }
 
+
+  const scrollContainerRef = useRef(null);
+  
+  const scroll = (direction) => {
+      if (scrollContainerRef.current) {
+        const scrollAmount = 340; // Approx card width + gap
+        scrollContainerRef.current.scrollBy({
+          left: direction === 'left' ? -scrollAmount : scrollAmount,
+          behavior: 'smooth',
+        });
+      }
+  };
+
+  const [houses,setHouses]=useState([])
+  const[plots,setPlots]=useState([])
+
+  const getProperties=async(id)=>{
+
+    try{
+
+      const data=await brokerService.getBrokerProperties(id)
+
+      console.log(data)
+
+      setHouses(data.houses)
+      setPlots(data.plots)
+    }
+    catch(err){
+      console.log(err.message)
+    }
+
+  }
+
+  useEffect(()=>{
+    getProperties(id)
+  } , [id])
   
 
 
@@ -85,6 +124,7 @@ const BrokerProfile = () => {
 
   return (
     <>
+
     <div className="max-w-md mx-auto bg-white border border-gray-100 rounded-2xl shadow-sm p-6 font-sans text-gray-800">
       {/* Header / Profile Info */}
       <div className="flex items-center space-x-4 mb-6">
@@ -214,6 +254,124 @@ const BrokerProfile = () => {
         ))}
       </div>
     </section>
+
+     <section className="bg-gray-50 py-12 m-4 px-4 sm:px-6 lg:px-8" id="houses">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">
+              <Sparkles className="w-3.5 h-3.5" /> Featured Properties
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+              Explore Available Houses
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Browse top residential and commercial Houses listings in prime locations.
+            </p>
+          </div>
+
+          {/* Navigation Controls */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => scroll('left')}
+              className="p-2.5 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-200 shadow-sm focus:outline-none"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              className="p-2.5 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-200 shadow-sm focus:outline-none"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Horizontal Scrollable Container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex space-x-6 overflow-x-auto scrollbar-none scroll-smooth pb-4 pt-1 px-1 -mx-1"
+          style={{
+            scrollbarWidth: 'none', // Hide scrollbar Firefox
+            msOverflowStyle: 'none', // Hide scrollbar IE/Edge
+          }}
+        >
+          {plots.map((plot) => (
+            <div key={plot.id} className="flex-shrink-0 w-[300px] sm:w-[320px]">
+              <HouseCard
+                image={plot.image}
+                location={plot.location}
+                price={plot.price}
+                area={plot.area}
+                onViewDetails={() => console.log(`Viewing plot ${plot.id}`)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+     <section className="bg-gray-50 py-12 m-4 px-4 sm:px-6 lg:px-8" id="plots">
+          <div className="max-w-7xl mx-auto">
+            {/* Section Header */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3.5 h-3.5" /> Featured Properties
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                  Explore Available Plots
+                </h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  Browse top residential and commercial plot listings in prime locations.
+                </p>
+              </div>
+    
+              {/* Navigation Controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => scroll('left')}
+                  className="p-2.5 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-200 shadow-sm focus:outline-none"
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => scroll('right')}
+                  className="p-2.5 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all duration-200 shadow-sm focus:outline-none"
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+    
+            {/* Horizontal Scrollable Container */}
+            <div
+              ref={scrollContainerRef}
+              className="flex space-x-6 overflow-x-auto scrollbar-none scroll-smooth pb-4 pt-1 px-1 -mx-1"
+              style={{
+                scrollbarWidth: 'none', // Hide scrollbar Firefox
+                msOverflowStyle: 'none', // Hide scrollbar IE/Edge
+              }}
+            >
+              {plots.map((plot) => (
+                <div key={plot._id} className="flex-shrink-0 w-[300px] sm:w-[320px]">
+                  <PlotCard
+                    image={plot.image}
+                    location={plot.location.city}
+                    price={plot.price}
+                    area={plot.area.value}
+                    onViewDetails={() => navigate(`/plot-details/${plot._id}`)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
     </>
   );
 };

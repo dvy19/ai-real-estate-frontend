@@ -14,6 +14,7 @@ import Login from './pages/Login'
 import Appointment from './pages/broker/Appointment'
 import HousePredictCard from './components/cards/HousePredictCard'
 import HousePrediction from './pages/HousePrediction'
+import MyAppointments from './pages/customer/MyAppointment'
 
 function App(){
 
@@ -45,6 +46,8 @@ function App(){
         <Route path='/broker-appoint' element={<Appointment/>}></Route>
 
         <Route path='/house-prediction' element={<HousePrediction/>}></Route>
+
+        <Route path='/my-appointments' element={<MyAppointments/>}> </Route>
       </Routes>
     
     </BrowserRouter>

@@ -82,9 +82,13 @@ const brokerService={
         const data=await api.get(endpoints.GET_MY_BROKER_APPOINT)
 
         return data.data
+    },
 
+    getBrokerProperties:async(id)=>{
 
+        const data=await api.get(`${endpoints.GET_BROKER_PROPERTIES(id)}`)
 
+        return data.data
     }
     
 }

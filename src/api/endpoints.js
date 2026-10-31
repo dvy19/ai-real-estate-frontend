@@ -39,7 +39,11 @@ const endpoints={
     GET_PLOT_BROKER:(plotId)=>`plot/plot-broker/${plotId}`,
 
 
-    HOUSE_PRICE_PREDICT:"ml/predict-house-price"
+    HOUSE_PRICE_PREDICT:"ml/predict-house-price",
+
+    GET_BROKER_PROPERTIES:(id)=>`broker/get-broker-properties/${id}`,
+
+    GET_MY_APPOINTMENTS:'user/get-my-appointments'
 
 }
 
